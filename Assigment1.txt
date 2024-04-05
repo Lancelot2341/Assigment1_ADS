@@ -1,0 +1,386 @@
+Assigment1
+1)
+#include <iostream>
+using namespace std;
+
+// Recursive function to find the minimum element in an array
+int findMin(int arr[], int n) {
+    // Base case: if there is only one element in the array
+    if (n == 1)
+        return arr[0];
+    
+    // Recursive case: compare the first element with the minimum of the rest of the array
+    return min(arr[0], findMin(arr + 1, n - 1));
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of elements in the array: ";
+    cin >> n;
+    
+    int arr[n];
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    
+    int minElement = findMin(arr, n);
+    cout << "The minimum element in the array is: " << minElement << endl;
+    
+    return 0;
+}
+2)
+
+
+
+
+#include <iostream>
+using namespace std;
+
+// Recursive function to calculate the sum of elements in an array
+int arraySum(int arr[], int n) {
+    // Base case: if there is only one element in the array
+    if (n == 1)
+        return arr[0];
+    
+    // Recursive case: sum the current element with the sum of the rest of the array
+    return arr[0] + arraySum(arr + 1, n - 1);
+}
+
+// Function to calculate the average of elements in an array
+double arrayAverage(int arr[], int n) {
+    // Calculate the sum of elements in the array
+    int sum = arraySum(arr, n);
+    // Return the average
+    return static_cast<double>(sum) / n;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of elements in the array: ";
+    cin >> n;
+    
+    int arr[n];
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    
+    double avg = arrayAverage(arr, n);
+    cout << "The average of the elements in the array is: " << avg << endl;
+    
+    return 0;
+}
+
+
+
+
+
+3)
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Recursive function to check if a number is prime
+bool isPrimeUtil(int n, int i) {
+    // Base cases
+    if (n <= 2)
+        return (n == 2) ? true : false;
+    if (n % i == 0)
+        return false;
+    if (i * i > n)
+        return true;
+    
+    // Check for next divisor
+    return isPrimeUtil(n, i + 1);
+}
+
+// Function to check if a number is prime
+bool isPrime(int n) {
+    // Handling edge cases
+    if (n <= 1)
+        return false;
+    
+    // Start checking divisors from 2
+    return isPrimeUtil(n, 2);
+}
+
+int main() {
+    int n;
+    cout << "Enter a number to check if it's prime: ";
+    cin >> n;
+    
+    if (isPrime(n))
+        cout << n << " is a prime number." << endl;
+    else
+        cout << n << " is not a prime number." << endl;
+    
+    return 0;
+}
+
+
+
+
+4)
+#include <iostream>
+using namespace std;
+
+// Recursive function to calculate the factorial of a number
+int factorial(int n) {
+    // Base case: factorial of 0 is 1
+    if (n == 0)
+        return 1;
+    // Recursive case: n! = n * (n-1)!
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int n;
+    cout << "Enter a number to calculate its factorial: ";
+    cin >> n;
+    
+    if (n < 0) {
+        cout << "Factorial is not defined for negative numbers." << endl;
+        return 1;
+    }
+    
+    int result = factorial(n);
+    cout << "The factorial of " << n << " is: " << result << endl;
+    
+    return 0;
+}
+
+
+
+
+
+5)
+#include <iostream>
+using namespace std;
+
+// Recursive function to find the nth Fibonacci number
+int fibonacci(int n) {
+    // Base cases
+    if (n == 0)
+        return 0;
+    else if (n == 1)
+        return 1;
+    // Recursive case: Fn = Fn-1 + Fn-2
+    else
+        return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+int main() {
+    int n;
+    cout << "Enter the value of n to find the nth Fibonacci number: ";
+    cin >> n;
+    
+    if (n < 0) {
+        cout << "Invalid input. n should be a non-negative integer." << endl;
+        return 1;
+    }
+    
+    int result = fibonacci(n);
+    cout << "The " << n << "th Fibonacci number is: " << result << endl;
+    
+    return 0;
+}
+
+
+
+
+
+6)
+#include <iostream>
+using namespace std;
+
+// Recursive function to calculate the power of a number
+double power(double a, int n) {
+    // Base case: if n is 0, return 1
+    if (n == 0)
+        return 1;
+    // If n is negative, calculate 1 / (a^n)
+    else if (n < 0)
+        return 1 / power(a, -n);
+    // Recursive case: an = a * a^(n-1)
+    else
+        return a * power(a, n - 1);
+}
+
+int main() {
+    double a;
+    int n;
+    cout << "Enter the base (a): ";
+    cin >> a;
+    cout << "Enter the exponent (n): ";
+    cin >> n;
+    
+    double result = power(a, n);
+    cout << a << " raised to the power of " << n << " is: " << result << endl;
+    
+    return 0;
+}
+
+
+
+
+
+7)
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Recursive function to generate permutations
+void permute(string str, int left, int right) {
+    if (left == right) {
+        cout << str << endl;
+    } else {
+        for (int i = left; i <= right; ++i) {
+            // Swapping characters at indices left and i
+            swap(str[left], str[i]);
+            // Recursively generating permutations for the substring str[left+1, right]
+            permute(str, left + 1, right);
+            // Backtracking by restoring the original string
+            swap(str[left], str[i]);
+        }
+    }
+}
+
+// Function to print all permutations of a string
+void printPermutations(string str) {
+    int n = str.size();
+    // Call recursive function to generate permutations
+    permute(str, 0, n - 1);
+}
+
+int main() {
+    string input;
+    cout << "Enter a string to generate permutations: ";
+    cin >> input;
+    
+    cout << "Permutations of the string are: " << endl;
+    printPermutations(input);
+    
+    return 0;
+}
+
+
+
+
+8)
+#include <iostream>
+using namespace std;
+
+// Recursive function to check if a string consists only of digits
+bool isAllDigits(const string& s, int index) {
+    // Base case: if the index reaches the end of the string, return true
+    if (index == s.length())
+        return true;
+    
+    // Check if the current character is a digit
+    if (isdigit(s[index]))
+        // Recursively check the remaining characters in the string
+        return isAllDigits(s, index + 1);
+    
+    // If the current character is not a digit, return false
+    return false;
+}
+
+// Wrapper function to start the recursion
+bool isAllDigits(const string& s) {
+    // Start recursion from index 0
+    return isAllDigits(s, 0);
+}
+
+int main() {
+    string s;
+    cout << "Enter a string: ";
+    cin >> s;
+    
+    if (isAllDigits(s))
+        cout << "The string consists only of digits." << endl;
+    else
+        cout << "The string does not consist only of digits." << endl;
+    
+    return 0;
+}
+
+
+
+
+
+
+9)
+#include <iostream>
+using namespace std;
+
+// Recursive function to calculate the binomial coefficient C(n, k)
+int binomialCoefficient(int n, int k) {
+    // Base cases: C(n, 0) = C(n, n) = 1
+    if (k == 0 || k == n)
+        return 1;
+    // Recursive case: C(n, k) = C(n-1, k-1) + C(n-1, k)
+    return binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k);
+}
+
+int main() {
+    int n, k;
+    cout << "Enter the value of n: ";
+    cin >> n;
+    cout << "Enter the value of k: ";
+    cin >> k;
+    
+    if (k < 0 || k > n) {
+        cout << "Invalid input. k must be between 0 and n." << endl;
+        return 1;
+    }
+    
+    int result = binomialCoefficient(n, k);
+    cout << "The binomial coefficient C(" << n << ", " << k << ") is: " << result << endl;
+    
+    return 0;
+}
+
+
+
+
+
+10)
+#include <iostream>
+using namespace std;
+
+// Recursive function to calculate GCD using Euclidean algorithm
+int gcd(int a, int b) {
+    // Base case: if b is 0, return a
+    if (b == 0)
+        return a;
+    // Recursive case: GCD(a, b) = GCD(b, a % b)
+    return gcd(b, a % b);
+}
+
+int main() {
+    int a, b;
+    cout << "Enter two numbers to find their GCD: ";
+    cin >> a >> b;
+    
+    int result = gcd(a, b);
+    cout << "The GCD of " << a << " and " << b << " is: " << result << endl;
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
