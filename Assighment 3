@@ -1,0 +1,142 @@
+Тестирование хеш-таблицы
+1.2. Тестирование (25%)
+Задание:
+ * Создать дополнительный класс для тестирования K.
+ * Создать свой собственный метод hashCode() в MyTestingClass.
+ * Добавить 10 000 случайных элементов в хеш-таблицу и напечатать количество элементов в каждом сегменте.
+ * Настроить метод hashCode в MyTestingClass, чтобы он не нарушал равномерное распределение.
+ * Добавить размер.
+ * Реализовать обход по порядку для iterator().
+ * Обеспечить доступность как ключа, так и значения во время итерации.
+Решение:
+1. Класс для тестирования:
+public class MyTestingClass {
+
+    private int id;
+    private String name;
+
+    public MyTestingClass(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyTestingClass that = (MyTestingClass) o;
+        return id == that.id && name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+2. Добавление элементов в хеш-таблицу:
+MyHashTable<MyTestingClass, Student> table = new MyHashTable<>();
+
+for (int i = 0; i < 10000; i++) {
+    MyTestingClass key = new MyTestingClass(i, "Student" + i);
+    Student value = new Student(i, "Student" + i, i);
+    table.put(key, value);
+}
+
+3. Печать количества элементов в сегментах:
+for (int i = 0; i < table.getNumBuckets(); i++) {
+    System.out.println("Сегмент " + i + ": " + table.getBucketSize(i));
+}
+
+4. Настройка метода hashCode():
+public class MyTestingClass {
+
+    private int id;
+    private String name;
+
+    public MyTestingClass(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyTestingClass that = (MyTestingClass) o;
+        return id == that.id && name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        // Настройка метода hashCode
+        int hash = 17;
+        hash = 31 * hash + id;
+        hash = 31 * hash + name.hashCode();
+        return hash;
+    }
+
+    // ...
+}
+
+5. Добавление размера:
+public class MyHashTable<K, V> {
+
+    private int size;
+    private Node[] buckets;
+
+    // ...
+
+    public int size() {
+        return size;
+    }
+
+    // ...
+}
+
+6. Реализация обхода по порядку:
+public class MyHashTable<K, V> {
+
+    private int size;
+    private Node[] buckets;
+
+    // ...
+
+    public Iterator<K> iterator() {
+        return new Iterator<K>() {
+
+            private int currentBucket = 0;
+            private int currentListIndex = 0;
+            private Node<K, V> current = null;
+
+            @Override
+            public boolean hasNext() {
+                if (current != null) {
+                    return true;
+                }
+
+                while (currentBucket < buckets.length) {
+                    if (buckets[currentBucket] != null) {
+                        current = buckets[currentBucket];
+                        currentListIndex = 0;
+                        return true;
+                    }
+                    currentBucket++;
+                }
+
+                return false;
+            }
+
+            @Override
+            public K next() {
+                if (!hasNext()) {
+
+ 
